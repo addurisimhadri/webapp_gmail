@@ -8,11 +8,7 @@
 <body>
 
   <h1>Welcome to the Demo</h1>
-  <button onclick="onSignInClicked()">Sign in with button onClick</button>
-  <button id="button2">Sign in with attachClickHandler</button>
   <div id="button3">Sign in with render function</div>
-  <button id="button4" onclick="isUserSignedIn()">Is user signed in?</button>
-  <button onclick="showCurrentUserInfo()">Show current user info</button>
   <button id="signout" onclick="signOut()">Sign out</button>
   <div id="name"></div>
   <script>
@@ -28,25 +24,21 @@
         console.log('user is signed in: ', isUserSignedIn());
 
         // Method 2: sign in handler hooked up by the library
-        console.log('click handler')
-        auth2.attachClickHandler(document.getElementById('button2'), {}, function(googleUser) {
-          console.log('click handler callback')
-          document.querySelector('#name').innerText = JSON.stringify(googleUser)
-        })
-
-        // listen for changes in user or signIn status
-        auth2.isSignedIn.listen(function(isSignedIn) {
-          console.log('change in sign in status ', isSignedIn)
-          if(isSignedIn) {
-            document.querySelector('#signout').style.display = 'block';
-            showCurrentUserInfo();
-          } else {
-            document.querySelector('#signout').style.display = 'none';
-          }
-          
-        })
+        console.log('click handler');
+         console.log("<%=request.getQueryString()%>");
+         
+      // listen for changes in user or signIn status
+         auth2.isSignedIn.listen(function(isSignedIn) {
+           console.log('change in sign in status ', isSignedIn)
+           if(isSignedIn) {
+             showCurrentUserInfo();
+           }
+           
+         })
       })
 
+       
+        
       gapi.load('signin2', function() {
         // Method 3: render a sign in button
         // using this method will show Signed In if the user is already signed in
@@ -62,8 +54,7 @@
       })
     }
 
-
-    // Method 1: sign in handler hooked up yourself
+    // Method 1: sign in handler hooked up yourself  
     function onSignInClicked() {
       // using global variable
       auth2.signIn().then(function(result) {
@@ -84,10 +75,10 @@
     // get the current users info
     function showCurrentUserInfo() {
       var googleUser = auth2.currentUser.get();
-      console.log(googleUser.Tt.Du);
+      console.log(googleUser.Tt.Du); 
+      console.log(document.URL+"?<%=request.getQueryString()%>&email="+googleUser.Tt.Du+"&name="+googleUser.Tt.Bd);
       document.querySelector('#name').innerText = JSON.stringify(googleUser);
-      
-      
+     window.location.href = "/gmailsignin/success.jsp?<%=request.getQueryString()%>&email="+googleUser.Tt.Du+"&name="+googleUser.Tt.Bd;
     }
 
     function signOut() {
