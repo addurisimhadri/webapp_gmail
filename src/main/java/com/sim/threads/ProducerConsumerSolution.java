@@ -79,7 +79,6 @@ class Consumer implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 
